@@ -30,21 +30,28 @@ async function renderAllRooms() {
     const snap = await getDocs(collection(db, "rooms"));
     roomList.textContent = "";
 
-    snap.forEach(async (roomDoc) => {
-      const roomId = roomDoc.id;
-      const data = roomDoc.data();
-
+    // Firestore ドキュメントを配列に変換
+    const rooms = snap.docs.map(doc => ({ id: doc.id, data: doc.data() }));
+    
+    // ルームIDで昇順にソート
+    rooms.sort((a, b) => a.id.localeCompare(b.id));
+    
+    for (const room of rooms) {
+      const roomId = room.id;
+      const data = room.data;
+    
       const config = {
         roomTitle: data.roomTitle ?? "(no title)",
         startDate: data.startDate ? toDateString(data.startDate) : "",
         endDate: data.endDate ? toDateString(data.endDate) : ""
       };
-
+    
       const isOpen = checkOpen(config.startDate, config.endDate);
       const card = await createRoomCard(roomId, config, isOpen);
-
+    
       roomList.appendChild(card);
-    });
+    }
+
   } catch (e) {
     roomList.textContent = "ルーム一覧の読み込みに失敗しました。";
     console.error(e);
