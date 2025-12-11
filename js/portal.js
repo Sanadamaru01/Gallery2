@@ -113,7 +113,7 @@ async function createRoomCard(roomId, config, isOpen) {
 
   const announcement = document.createElement('p');
   announcement.textContent = config.announcement;
-  announcement.style.fontWeight = 'bold';
+  //announcement.style.fontWeight = 'bold';
 
   const dates = document.createElement('p');
   dates.textContent = `${config.startDate} ～ ${config.endDate}`;
