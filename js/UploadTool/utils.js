@@ -2,10 +2,12 @@
 import pica from "https://cdn.skypack.dev/pica";
 
 // -------------------- ログ出力 --------------------
-export function log(msg, logArea = null) {
+let globalLogArea = document.getElementById("log");
+
+export function log(msg) {
   const t = new Date().toLocaleString();
   const line = `[${t}] ${msg}\n`;
-  if (logArea) logArea.textContent = line + logArea.textContent;
+  if (globalLogArea) globalLogArea.textContent = line + globalLogArea.textContent;
   console.log(msg);
 }
 
