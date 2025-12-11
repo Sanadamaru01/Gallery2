@@ -114,6 +114,11 @@ function toDateInputValue(dateObj) {
   return dateObj.toISOString().split("T")[0];
 }
 
+function parseLocalDate(yyyyMMdd) {
+  const [y, m, d] = yyyyMMdd.split("-").map(Number);
+  return new Date(y, m - 1, d, 0, 0, 0);  // ← これならローカルの00:00
+}
+
 // -----------------------------
 // 設定保存
 // -----------------------------
@@ -124,9 +129,12 @@ saveRoomBtn.addEventListener("click", async () => {
 
   await updateDoc(refRoom, {
     roomTitle: titleInput.value,
-    startDate: startDateInput.value ? new Date(startDateInput.value) : null,
-    openDate: openDateInput.value ? new Date(openDateInput.value) : null,
-    endDate: endDateInput.value ? new Date(endDateInput.value) : null
+    startDate: startDateInput.value ? parseLocalDate(startDateInput.value) : null,
+    endDate: endDateInput.value ? parseLocalDate(endDateInput.value) : null,
+    openDate: openDateInput.value ? parseLocalDate(openDateInput.value) : null,
+    //startDate: startDateInput.value ? new Date(startDateInput.value) : null,
+    //openDate: openDateInput.value ? new Date(openDateInput.value) : null,
+    //endDate: endDateInput.value ? new Date(endDateInput.value) : null
   });
 
   alert("保存しました");
