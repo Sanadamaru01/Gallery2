@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>TestGallery Upload & Manage Tool</title>
+  <title>Gallery room Mentenance Tool</title>
   <style>
     body { font-family: sans-serif; padding: 1rem; }
     .file-row { display: flex; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
@@ -11,11 +11,12 @@
     .progress-bar { width: 100%; background: #eee; height: 12px; border-radius: 6px; overflow: hidden; }
     .progress-fill { height: 100%; width: 0; background: #4caf50; }
     .small { font-size: 0.8rem; }
-    select, input, button { padding: 0.2rem 0.5rem; font-size: 0.9rem; }
+    select, input, button { padding: 0.2rem 0.8rem; font-size: 0.9rem; }
+    label { display: block;  margin-bottom: 8px;}
   </style>
 </head>
 <body>
-  <h2>TestGallery Upload & Manage Tool</h2>
+  <h2>Gallery room Mentenance Tool</h2>
 
   <div>
     <label>ルーム選択:
@@ -24,7 +25,10 @@
     <label>ルームタイトル:
       <input type="text" id="roomTitleInput">
     </label>
-    <button id="updateRoomBtn">ルームタイトル更新</button>
+    <label>情報欄:
+      <input type="text" id="roomAnnouncementInput">
+    </label>
+    <button id="updateRoomBtn">ルーム情報更新</button>
   </div>
   
   <!-- サムネイル専用 -->
