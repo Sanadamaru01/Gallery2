@@ -54,6 +54,7 @@ export async function initGalleryFromRoomId(roomId) {
     if (!allowed) return;
 
     const title = raw.roomTitle || 'Untitled Room';
+    document.getElementById('titleText').textContent = title;
     document.title = title;
     //console.log("[DEBUG] room title set:", title);
 
@@ -79,32 +80,18 @@ export async function initGalleryFromRoomId(roomId) {
 // ========================================================
 console.log("[DEBUG] main.js param check start");
 
-(async () => {
-  const params = new URLSearchParams(window.location.search);
-  const roomId = params.get('roomId');
+const params = new URLSearchParams(window.location.search);
+const roomId = params.get('roomId');
 
-  const messageEl = document.getElementById('message');
+const messageEl = document.getElementById('message');
 
-  if (!roomId) {
-    console.warn("[WARN] roomId が指定されていません");
-    if (messageEl) {
-      messageEl.style.display = 'block';
-      messageEl.textContent = '❌ roomId が指定されていません。URL に ?roomId=XXX を付加してください。';
-    }
-    return;
-  }
-
-  // 🔹 読み込み中メッセージ表示
+if (!roomId) {
+  console.warn("[WARN] roomId が指定されていません");
   if (messageEl) {
-    messageEl.style.display = "block";
-    messageEl.textContent = "読み込み中…";
+    messageEl.style.display = 'block';
+    messageEl.textContent = '❌ roomId が指定されていません。URL に ?roomId=XXX を付加してください。';
   }
-
-  // 🔹 ギャラリー読み込み完了まで待つ
-  await initGalleryFromRoomId(roomId);
-
-  // 🔹 読み込み完了 → メッセージ非表示
-  if (messageEl) {
-    messageEl.style.display = "none";
-  }
-})();
+} else {
+  //console.log("[DEBUG] initGalleryFromRoomId will be executed with:", roomId);
+  initGalleryFromRoomId(roomId);
+}
