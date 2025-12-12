@@ -12,6 +12,7 @@ const db = getFirestore(app);
 const roomSelect = document.getElementById("roomSelect");
 const roomTitleInput = document.getElementById("roomTitleInput");
 const updateRoomBtn = document.getElementById("updateRoomBtn");
+const roomAnnouncementInput = document.getElementById("roomAnnouncementInput");
 const fileInput = document.getElementById("fileInput");
 const previewArea = document.getElementById("previewArea");
 const uploadBtn = document.getElementById("uploadBtn");
@@ -66,6 +67,7 @@ async function onRoomChange() {
 
   // タイトル反映
   roomTitleInput.value = data.roomTitle ?? "";
+  roomAnnouncementInput.value = data.announcement ?? "";
 
   // 画像ロード
   await loadRoomImages(roomId, previewArea, logArea);
@@ -83,13 +85,17 @@ async function onRoomChange() {
 }
 
 // -------------------------------
-// ルームタイトル更新
+// ルーム情報更新
 // -------------------------------
 updateRoomBtn.addEventListener("click", async () => {
   const roomId = roomSelect.value;
   if (!roomId) return;
-  await updateDoc(doc(db, "rooms", roomId), { roomTitle: roomTitleInput.value, updatedAt: serverTimestamp() });
-  log(`[INFO] ルームタイトル更新: ${roomTitleInput.value}`, logArea);
+  await updateDoc(doc(db, "rooms", roomId), {
+    roomTitle: roomTitleInput.value,
+    announcement: roomAnnouncementInput.value,  // ★追加
+    updatedAt: serverTimestamp()
+  });
+  log(`[INFO] ルーム情報更新: ${roomTitleInput.value} / ${roomAnnouncementInput.value}`, logArea);
   await onRoomChange();
 });
 
