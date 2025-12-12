@@ -42,5 +42,60 @@
 
   <!-- gallery main script（UploadTool と同じ方式） -->
   <script type="module" src="./js/main.js"></script>
+
+  <!-- ヘルプボタン -->
+  <button id="helpButton" style="
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 9999;
+  ">
+    ？
+  </button>
+  
+  <!-- ヘルプオーバーレイ -->
+  <div id="helpOverlay" style="
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 280px;
+    padding: 16px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    border-radius: 12px;
+    display: none;
+    z-index: 9999;
+  ">
+    <h3 style="margin-top:0;">使い方</h3>
+    <ul style="padding-left: 20px;">
+      <li>ドラッグ：見回す</li>
+      <li>床をクリック：そこまで移動</li>
+      <li>画像をクリック：拡大表示</li>
+      <li>ドアをクリック：入口に戻る</li>
+    </ul>
+    <button onclick="document.getElementById('helpOverlay').style.display='none'" style="
+      margin-top: 10px;
+      width: 100%;
+      padding: 6px 0;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    ">✕</button>
+  </div>
+  
+  <script>
+    document.getElementById("helpButton").onclick = () => {
+      const box = document.getElementById("helpOverlay");
+      box.style.display = box.style.display === "none" ? "block" : "none";
+    };
+  </script>
+
 </body>
 </html>
