@@ -21,6 +21,7 @@ import * as accessControl from './accessControl.js';
 //console.log("[DEBUG] accessControl imported");
 
 import * as galleryModule from './gallery.js';
+import { setOnFirstRender } from './gallery.js'; // ★追加
 //console.log("[DEBUG] gallery imported");
 
 import * as roomLinksModule from './roomLinks.js';
@@ -54,10 +55,24 @@ export async function initGalleryFromRoomId(roomId) {
     if (!allowed) return;
 
     const title = raw.roomTitle || 'Untitled Room';
-    document.getElementById('titleText').textContent = title;
     document.title = title;
     //console.log("[DEBUG] room title set:", title);
+    
+    // 🔹 読み込み中 表示（ここが最速）
+    const messageEl = document.getElementById('message');
+    if (messageEl) {
+      messageEl.style.display = 'block';
+      messageEl.textContent = '読み取り中…';
+    }
 
+    // 🔹 初回描画完了フック登録（★ここ）
+    setOnFirstRender(() => {
+      // 部屋が表示された瞬間に実行される
+      if (messageEl) messageEl.style.display = 'none';
+      document.getElementById('titleText').textContent = title;
+      document.title = title;
+    });
+    
     //console.log("[DEBUG] initializing gallery...");
     // 改修：roomId と images のみ渡す
     galleryModule.initGallery(roomId, images, config);
